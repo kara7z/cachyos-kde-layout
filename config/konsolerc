@@ -1,0 +1,17 @@
+[Desktop Entry]
+DefaultProfile=Profile 1.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+ToolBarsMovable=Enabled
+
+[MemorySettings]
+MemoryLimitValue=500
+
+[Notification Messages]
+CloseAllTabs=true
+
+[UiSettings]
+ColorScheme=
