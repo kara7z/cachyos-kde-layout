@@ -59,6 +59,11 @@ done
 # Copy local files, skip cache/compiled files
 rsync -av --exclude="*.qmlc" --exclude="*.jsc" --exclude="*.cache" "$SCRIPT_DIR/local/" "$HOME/.local/share/" 2>/dev/null || for item in "$SCRIPT_DIR/local/"*; do cp -rvT "$item" "$HOME/.local/share/$(basename "$item")"; done
 
+# Copy home dotfiles (preserves subdirectory structure)
+if [ -d "$SCRIPT_DIR/home" ]; then
+  rsync -av "$SCRIPT_DIR/home/" "$HOME/" 2>/dev/null || cp -rv "$SCRIPT_DIR/home/." "$HOME/"
+fi
+
 # 3. Install Neovim config
 echo ""
 echo "[3/5] Installing Neovim config..."
