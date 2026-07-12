@@ -34,8 +34,19 @@ fi
 echo ""
 echo "[2/5] Restoring KDE config files..."
 mkdir -p "$HOME/.config" "$HOME/.local/share"
-cp -rv "$SCRIPT_DIR/config/"* "$HOME/.config/"
-cp -rv "$SCRIPT_DIR/local/"* "$HOME/.local/share/"
+
+# Copy all configs except hardware-specific monitor config
+for item in "$SCRIPT_DIR/config/"*; do
+  name="$(basename "$item")"
+  if [ "$name" = "kwinoutputconfig.json" ]; then
+    echo "  Skipping $name (hardware-specific monitor config)"
+    continue
+  fi
+  cp -rv "$item" "$HOME/.config/"
+done
+
+# Copy local files, skip cache/compiled files
+rsync -av --exclude="*.qmlc" --exclude="*.jsc" --exclude="*.cache" "$SCRIPT_DIR/local/" "$HOME/.local/share/" 2>/dev/null || cp -rv "$SCRIPT_DIR/local/"* "$HOME/.local/share/"
 
 # 3. Install Neovim config
 echo ""
