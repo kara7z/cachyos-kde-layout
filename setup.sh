@@ -15,18 +15,17 @@ echo "[1/5] Installing packages..."
 if command -v lscpu &>/dev/null; then
   cpu_vendor=$(lscpu | awk '/Vendor ID:/ {print $3}')
   if echo "$cpu_vendor" | grep -qi "intel"; then
-    sudo pacman -S --needed intel-ucode
+    sudo pacman -S --needed --noconfirm intel-ucode
   elif echo "$cpu_vendor" | grep -qi "amd"; then
-    sudo pacman -S --needed amd-ucode
+    sudo pacman -S --needed --noconfirm amd-ucode
   fi
-fi
 
-sudo pacman -S --needed - < <(grep -v "amd-ucode\|intel-ucode" "$SCRIPT_DIR/kde-packages.txt")
+sudo pacman -S --needed --noconfirm - < <(grep -v "amd-ucode\|intel-ucode" "$SCRIPT_DIR/kde-packages.txt")
 
 # Ensure zsh is installed
 if ! command -v zsh &>/dev/null; then
   echo "Installing zsh..."
-  sudo pacman -S --needed zsh
+  sudo pacman -S --needed --noconfirm zsh
 fi
 
 # Ensure Oh My Zsh is installed
