@@ -33,6 +33,7 @@ plasma-thunderbolt
 spectacle
 steam
 tmux
+ttf-firacode-nerd
 vlc-plugins-all
 rsync
 yazi
