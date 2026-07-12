@@ -1,50 +1,48 @@
 # CachyOS KDE Layout
 
-KDE Plasma restore + Neovim + Zsh + Tmux config for CachyOS.
+KDE Plasma restore + Neovim + Zsh + Tmux + Alacritty for CachyOS.
 
 ## Quick start
 
 ```bash
-sudo pacman -S --needed git
-git clone https://github.com/kara7z/cachyos-kde-layout.git
-cd cachyos-kde-layout
-./setup.sh
+sudo pacman -S --needed git && git clone https://github.com/kara7z/cachyos-kde-layout.git && cd cachyos-kde-layout && ./setup.sh
 ```
 
-Then **log out and back in** to pick up the default shell change.
+Type your sudo password once — the script runs fully non-interactive from there.
 
-Open a new terminal after login to get the Zsh/Tmux config.
+Then **log out and back in** to apply the Zsh shell change.
 
-## What the script does
+## What gets restored
 
-| Step | Action |
+| What | Details |
 |---|---|
-| 1 | Detects CPU (Intel/AMD) and installs matching microcode |
-| 2 | Installs all KDE + dev packages from `kde-packages.txt` |
-| 3 | Installs Oh My Zsh and sets Zsh as default shell |
-| 4 | Restores KDE Plasma config (panels, shortcuts, themes, window rules) |
-| 5 | Restores Konsole profiles and splash screen |
-| 6 | Clones and installs Neovim config (`nvim-config`) |
-| 7 | Clones and installs Zsh/Tmux config (`zsh-config`) |
-| 8 | Restarts Plasma to apply changes |
+| **KDE Plasma** | panels, widgets, shortcuts, themes, window rules, desktop applets |
+| **Konsole** | profiles, color schemes (Sweet, Nord variants) |
+| **Alacritty** | Nord theme, font, opacity, keybinds |
+| **Neovim** | LazyVim + plugins, LSP (clangd, codelldb), custom keymaps |
+| **Zsh** | Oh My Zsh, autosuggestions, syntax highlighting |
+| **Tmux** | vim navigation, resurrect/continuum, Catppuccin-style colors |
+| **Packages** | full KDE suite + dev tools (git, neovim, tmux, alacritty, yazi, etc.) |
 
 ## What's in the repo
 
-- `setup.sh` — the restore script
-- `kde-packages.txt` — package list (CachyOS repos)
-- `config/` — KDE Plasma dotfiles (`~/.config/*`)
-- `local/` — Konsole profiles, splash screen (`~/.local/share/*`)
+```
+setup.sh              # restore script (fully non-interactive)
+kde-packages.txt      # package list (CachyOS repos)
+config/               # ~/.config/* — KDE Plasma, Alacritty, GTK
+local/                # ~/.local/share/* — Konsole profiles, splash
+```
 
-## Safety notes
+## Safety
 
 - `kwinoutputconfig.json` — **skipped** (monitor layout is hardware-specific)
-- `*.qmlc`, `*.jsc`, `*.cache` — **skipped** (compiled cache is Qt-version-specific)
-- Existing `~/.config/nvim/` is **replaced** (backup first if needed)
-- Existing `~/.zshrc` and `~/.tmux.conf` are **overwritten** with symlinks
+- `*.qmlc`, `*.jsc`, `*.cache` — **skipped** (compiled cache per Qt version)
+- `~/.config/nvim/` — **replaced** if present (back up first)
+- `~/.zshrc` / `~/.tmux.conf` — **overwritten** with symlinks
 
-## After running
+## Post-install
 
-1. **Log out and back in** for the Zsh shell change to take effect
+1. **Log out and back in** — Zsh becomes the default shell
 2. Open a terminal — Zsh with plugins is ready
-3. Run `tmux` then `prefix + I` (capital I) to install Tmux plugins
-4. Run `nvim` — lazy.nvim auto-installs all plugins on first launch
+3. Run `nvim` — lazy.nvim auto-installs plugins on first launch
+4. Run `tmux` then press `prefix + I` (capital I) to install TPM plugins
