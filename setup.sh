@@ -19,6 +19,7 @@ if command -v lscpu &>/dev/null; then
   elif echo "$cpu_vendor" | grep -qi "amd"; then
     sudo pacman -S --needed --noconfirm amd-ucode
   fi
+fi
 
 sudo pacman -S --needed --noconfirm - < <(grep -v "amd-ucode\|intel-ucode" "$SCRIPT_DIR/kde-packages.txt")
 
