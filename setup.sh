@@ -62,22 +62,24 @@ rsync -av --exclude="*.qmlc" --exclude="*.jsc" --exclude="*.cache" "$SCRIPT_DIR/
 # 3. Install Neovim config
 echo ""
 echo "[3/5] Installing Neovim config..."
-if [ ! -d "$HOME/.config/nvim" ]; then
+if [ ! -d "$HOME/.config/nvim" ] || [ -z "$(ls -A "$HOME/.config/nvim" 2>/dev/null)" ]; then
+  rm -rf "$HOME/.config/nvim" 2>/dev/null || true
   git clone https://github.com/kara7z/nvim-config.git "$HOME/.config/nvim"
+  echo "  Neovim config installed"
 else
-  echo "~/.config/nvim already exists, skipping..."
+  echo "  Neovim config already present, skipping..."
 fi
 
 # 4. Install Zsh & Tmux config
 echo ""
 echo "[4/5] Installing Zsh & Tmux config..."
-if [ ! -d "$HOME/zsh-config" ]; then
+if [ ! -d "$HOME/zsh-config" ] || [ -z "$(ls -A "$HOME/zsh-config" 2>/dev/null)" ]; then
+  rm -rf "$HOME/zsh-config" 2>/dev/null || true
   git clone https://github.com/kara7z/zsh-config.git "$HOME/zsh-config"
-  bash "$HOME/zsh-config/setup.sh"
 else
-  echo "zsh-config already cloned, running setup..."
-  bash "$HOME/zsh-config/setup.sh"
+  echo "  Zsh config already present, skipping clone..."
 fi
+bash "$HOME/zsh-config/setup.sh"
 
 # 5. Reload Plasma
 echo ""
@@ -94,6 +96,5 @@ echo "  All done!"
 echo "  - KDE layout restored"
 echo "  - Neovim config installed"
 echo "  - Zsh/Tmux config installed"
-echo "  Restart your shell or run:"
-echo "    source ~/.zshrc"
+echo "  Open a new terminal (or run 'zsh' then 'source ~/.zshrc')"
 echo "=============================="
