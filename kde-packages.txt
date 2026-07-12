@@ -34,4 +34,5 @@ spectacle
 steam
 tmux
 vlc-plugins-all
+rsync
 yazi
