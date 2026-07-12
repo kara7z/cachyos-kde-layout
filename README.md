@@ -5,7 +5,7 @@ My full system config: KDE Plasma layout + Neovim + Zsh + Tmux.
 ## One-command restore
 
 ```bash
-git clone https://github.com/kara7z/cachyos-kde-layout.git && cd cachyos-kde-layout && bash setup.sh
+git clone https://github.com/kara7z/cachyos-kde-layout.git && cd cachyos-kde-layout && ./setup.sh
 ```
 
 Then log out and back in (to apply the default shell change), or run `source ~/.zshrc`.
