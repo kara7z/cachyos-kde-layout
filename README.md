@@ -32,6 +32,7 @@ kde-packages.txt      # package list (CachyOS repos)
 .gitignore            # ignores *.qmlc, *.jsc, *.cache
 config/               # ~/.config/* — KDE Plasma, Alacritty, GTK
 local/                # ~/.local/share/* — Konsole profiles, splash screen
+home/                 # ~/* — scripts, dotfiles in $HOME
 ```
 
 ## The script does

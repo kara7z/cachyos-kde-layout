@@ -36,9 +36,9 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 # Set zsh as default shell if not already
-if [ "$SHELL" != "$(which zsh)" ]; then
+if [ "$SHELL" != "$(command -v zsh)" ]; then
   echo "Setting zsh as default shell..."
-  sudo chsh -s "$(which zsh)" "$USER" 2>/dev/null || echo "  Could not set shell automatically. Run: chsh -s \$(which zsh)"
+  sudo chsh -s "$(command -v zsh)" "$USER" 2>/dev/null || echo "  Could not set shell automatically. Run: chsh -s /usr/bin/zsh"
 fi
 
 # 2. Restore KDE config files
@@ -57,7 +57,7 @@ for item in "$SCRIPT_DIR/config/"*; do
 done
 
 # Copy local files, skip cache/compiled files
-rsync -av --exclude="*.qmlc" --exclude="*.jsc" --exclude="*.cache" "$SCRIPT_DIR/local/" "$HOME/.local/share/" 2>/dev/null || for item in "$SCRIPT_DIR/local/"*; do cp -rvT "$item" "$HOME/.local/share/$(basename "$item")"; done
+rsync -av --exclude="*.qmlc" --exclude="*.jsc" --exclude="*.cache" "$SCRIPT_DIR/local/" "$HOME/.local/share/" 2>/dev/null || for item in "$SCRIPT_DIR/local/"*; do case "$item" in *.qmlc|*.jsc|*.cache) continue;; esac; cp -rvT "$item" "$HOME/.local/share/$(basename "$item")"; done
 
 # Copy home dotfiles (preserves subdirectory structure)
 if [ -d "$SCRIPT_DIR/home" ]; then
