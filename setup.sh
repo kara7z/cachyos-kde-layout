@@ -4,28 +4,52 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "=============================="
-echo " Restoring KDE Plasma Layout"
+echo "  Full System Restore"
 echo "=============================="
 
 # 1. Install packages
 echo ""
-echo "[1/3] Installing packages..."
+echo "[1/5] Installing packages..."
 sudo pacman -S --needed - < "$SCRIPT_DIR/kde-packages.txt"
 
-# 2. Restore config files
+# 2. Restore KDE config files
 echo ""
-echo "[2/3] Restoring config files..."
+echo "[2/5] Restoring KDE config files..."
 cp -rv "$SCRIPT_DIR/config/"* "$HOME/.config/"
 cp -rv "$SCRIPT_DIR/local/"* "$HOME/.local/share/"
 
-# 3. Reload Plasma
+# 3. Install Neovim config
 echo ""
-echo "[3/3] Applying changes..."
+echo "[3/5] Installing Neovim config..."
+if [ ! -d "$HOME/.config/nvim" ]; then
+  git clone https://github.com/kara7z/nvim-config.git "$HOME/.config/nvim"
+else
+  echo "~/.config/nvim already exists, skipping..."
+fi
+
+# 4. Install Zsh & Tmux config
+echo ""
+echo "[4/5] Installing Zsh & Tmux config..."
+if [ ! -d "$HOME/zsh-config" ]; then
+  git clone https://github.com/kara7z/zsh-config.git "$HOME/zsh-config"
+  bash "$HOME/zsh-config/setup.sh"
+else
+  echo "zsh-config already cloned, running setup..."
+  bash "$HOME/zsh-config/setup.sh"
+fi
+
+# 5. Reload Plasma
+echo ""
+echo "[5/5] Applying Plasma changes..."
 kquitapp6 plasmashell 2>/dev/null || true
 kstart6 plasmashell 2>/dev/null || true
 
 echo ""
 echo "=============================="
-echo " Done! Your KDE layout should"
-echo " now look like the original."
+echo "  All done!"
+echo "  - KDE layout restored"
+echo "  - Neovim config installed"
+echo "  - Zsh/Tmux config installed"
+echo "  Restart your shell or run:"
+echo "    source ~/.zshrc"
 echo "=============================="

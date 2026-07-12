@@ -1,20 +1,18 @@
 # CachyOS KDE Layout
 
-My KDE Plasma desktop layout and configuration backup.
+My full system config: KDE Plasma layout + Neovim + Zsh + Tmux.
 
-## Contents
-
-- **`config/`** — KDE Plasma config files (panels, widgets, shortcuts, themes, etc.)
-- **`kde-packages.txt`** — List of KDE and relevant packages
-- **`packages.txt`** — Full system package list
-- **`setup.sh`** — Script to restore configs
-
-## Restore
+## One-command restore
 
 ```bash
-git clone https://github.com/kara7z/cachyos-kde-layout.git ~/kde-layout
-cd ~/kde-layout
-./setup.sh
+git clone https://github.com/kara7z/cachyos-kde-layout.git && cd cachyos-kde-layout && ./setup.sh
 ```
 
-Then log out and back in.
+Then restart your shell or run `source ~/.zshrc`.
+
+## What it restores
+
+- **KDE Plasma** — panels, widgets, shortcuts, themes, window rules, Konsole profiles, splash screen
+- **Neovim** — plugins, keymaps, LSP, Mason packages (clangd, codelldb)
+- **Zsh** — Oh My Zsh with autosuggestions & syntax highlighting
+- **Tmux** — vim-like navigation, resurrect/continuum
