@@ -12,6 +12,24 @@ echo ""
 echo "[1/5] Installing packages..."
 sudo pacman -S --needed - < "$SCRIPT_DIR/kde-packages.txt"
 
+# Ensure zsh is installed
+if ! command -v zsh &>/dev/null; then
+  echo "Installing zsh..."
+  sudo pacman -S --needed zsh
+fi
+
+# Ensure Oh My Zsh is installed
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+# Set zsh as default shell if not already
+if [ "$SHELL" != "$(which zsh)" ]; then
+  echo "Setting zsh as default shell..."
+  chsh -s "$(which zsh)"
+fi
+
 # 2. Restore KDE config files
 echo ""
 echo "[2/5] Restoring KDE config files..."
