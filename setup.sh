@@ -27,12 +27,13 @@ fi
 # Set zsh as default shell if not already
 if [ "$SHELL" != "$(which zsh)" ]; then
   echo "Setting zsh as default shell..."
-  chsh -s "$(which zsh)"
+  sudo chsh -s "$(which zsh)" "$USER" 2>/dev/null || echo "  Could not set shell automatically. Run: chsh -s \$(which zsh)"
 fi
 
 # 2. Restore KDE config files
 echo ""
 echo "[2/5] Restoring KDE config files..."
+mkdir -p "$HOME/.config" "$HOME/.local/share"
 cp -rv "$SCRIPT_DIR/config/"* "$HOME/.config/"
 cp -rv "$SCRIPT_DIR/local/"* "$HOME/.local/share/"
 
@@ -59,8 +60,11 @@ fi
 # 5. Reload Plasma
 echo ""
 echo "[5/5] Applying Plasma changes..."
-kquitapp6 plasmashell 2>/dev/null || true
-kstart6 plasmashell 2>/dev/null || true
+if systemctl --user is-active plasma-plasmashell &>/dev/null; then
+  systemctl --user restart plasma-plasmashell 2>/dev/null || true
+else
+  echo "  Plasma not running (headless/SSH). Configs will apply on next login."
+fi
 
 echo ""
 echo "=============================="
