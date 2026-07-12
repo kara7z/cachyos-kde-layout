@@ -10,7 +10,18 @@ echo "=============================="
 # 1. Install packages
 echo ""
 echo "[1/5] Installing packages..."
-sudo pacman -S --needed - < "$SCRIPT_DIR/kde-packages.txt"
+
+# Install CPU-specific microcode if applicable
+if command -v lscpu &>/dev/null; then
+  cpu_vendor=$(lscpu | awk '/Vendor ID:/ {print $3}')
+  if echo "$cpu_vendor" | grep -qi "intel"; then
+    sudo pacman -S --needed intel-ucode
+  elif echo "$cpu_vendor" | grep -qi "amd"; then
+    sudo pacman -S --needed amd-ucode
+  fi
+fi
+
+sudo pacman -S --needed - < <(grep -v "amd-ucode\|intel-ucode" "$SCRIPT_DIR/kde-packages.txt")
 
 # Ensure zsh is installed
 if ! command -v zsh &>/dev/null; then
